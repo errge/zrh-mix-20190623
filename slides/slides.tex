@@ -1,0 +1,134 @@
+%% -*- latex -*-
+\newtoks\nicsroot\directlua{ tex.settoks("nicsroot", os.getenv("NICS_ROOT") or error("NICS_ROOT environment variable has to be set, use the Makefile")) }
+\input{\the\nicsroot /src/nics-cached.tex}
+\endofdump
+\input{\the\nicsroot /src/nics-noncached.tex}
+\hypersetup{
+  pdfauthor={your name or emailss},
+  pdftitle={your presentation title},
+}
+\nicsgrid=0
+\begin{document}
+
+\section{Nilcons vegyes}
+
+\nicstitleslide{images/welcome}{ZRH Gergő 2019-06-23}{Mixed stuff}
+
+\begin{slide}{Agenda}{}
+  \begin{nicscolumn}
+    \nicsitem{Bootstrap SCSS: web design for nics webpage}
+    \nicsitem{Nilcons Fonts: usable Linux fonts independently from your system}
+    \nicsitem{Saját font: Jozsika, yay!}
+    \nicsitem{Virtual Machine update: nested VMs, licensing, ddccontrol}
+    \nicsitem{Remote working: IPsec + nx + usbip for yubikey, ykselect}
+    \nicsitem{xrandr érdekesség: monitor absztrakció}
+    \nicsitem{Linux érdekesség: vrf absztrakció}
+    \nicsitem{IPsec + UDP hole punching with someone}
+  \end{nicscolumn}
+\end{slide}
+
+\begin{slide}{Bootstrap SCSS}{Web design for nics}
+  \begin{nicscolumn}
+    \nicspar{\centering\url{https://github.com/nilcons/nics/tree/gh-pages}}
+    \nicsbigskip
+    \nicsitem{Érdekességek megmutatni}
+    \begin{nicsindent}
+      \nicsitem{\mono{package.json}}
+      \nicsitem{\mono{gulpfile.js}}
+      \nicsitem{\mono{index.html} + \mono{nics.scss}}
+      \begin{nicsindent}
+        \nicsitem{a struktúrát diktálja a bootstrap doksi}
+        \nicsitem{grid: 12 oszlop soronként, mert az mindennel osztható}
+        \nicsitem{responsive: col-\{sm,md,lg,xl\}-4}
+        \nicsitem{miért sokkal jobb így használni a bootstrapet?}
+      \end{nicsindent}
+    \end{nicsindent}
+  \end{nicscolumn}
+\end{slide}
+
+\begin{slide}{Nilcons Fonts}{Independent fonts from your buggy GNU/Linux distro}
+  \begin{nicscolumn}
+    \nicspar{\centering\url{https://github.com/nilcons/nilcons-fonts}}
+    \nicsbigskip
+    \nicsitem{Érdekes fájlok}
+    \begin{nicsindent}
+      \nicsitem{\mono{README.md} teteje}
+      \nicsitem{\mono{ncfonts.conf}}
+      \nicsitem{\mono{fonts/ könyvtár}}
+      \nicsitem{\mono{conf.d/10-nilcons-base.conf}}
+    \end{nicsindent}
+    \nicsbigskip
+    \nicsitem{5 hónapja daily driver for both of us}
+  \end{nicscolumn}
+\end{slide}
+
+\begin{slide}{Iosevka}{Saját kiadás: Józsika}
+  \begin{nicscolumn}
+    \nicspar{\centering\url{https://github.com/be5invis/Iosevka}}
+    \nicspar{\centering\url{https://github.com/nilcons/jozsika}}
+    \nicsbigskip
+    \nicsitem{Az Iosevka egy zseniális cucc, érdemes tudni róla!}
+    \nicsitem{De a közelebb tolást (amit én szerettem volna) nem tudta}
+    \nicsitem{De könnyű volt beletenni, habár hackyn, magamnak jó lesz!}
+    \nicsitem{Terminálokban és Emacsban daily driver}
+    \nicsitem{Kb. 1.5x annyi betűt hívok olvashatónak az új fonttal, mint régen}
+  \end{nicscolumn}
+\end{slide}
+
+\begin{slide}{Gergo Tech update}{Virtuális gépek for gaming and saving, microsoft licensing, ddccontrol}
+  \begin{nicscolumn}
+    \nicspar{\centering\url{https://github.com/nilcons/windows-usability}}
+    \nicsbigskip
+    \nicsitem{Previously on Gergo Tech}
+    \begin{nicsindent}
+      \nicsitem{Virtuális gép win gamingre PCI video passhtroughval (no FPS loss)}
+      \nicsitem{PCI video passhtrough VM munkaállomásnak szerveren}
+      \nicsitem{Microsoft licensing: olcsó windows és office}
+    \end{nicsindent}
+    \nicsitem{Update: mindez működik, nem csalódtam, semmit nem ,,tiltottak'' le}
+    \nicsitem{Update: ddccontrol}
+    \begin{nicsindent}
+      \nicsitem{Váltani is kellene a monitoron az inputot a windowsra}
+      \nicsitem{Ez automatizálható ddccontrollal}
+      \nicsitem{Megy vezérlőjel a HDMI/DisplayPort/DVI kábelen, tudjunk róla}
+      \nicsitem{Minden másra is használható: brightness, volume, stb.}
+    \end{nicsindent}
+  \end{nicscolumn}
+\end{slide}
+
+\begin{slide}{Remote working}{NX, IPsec, usbip for yubikey, ykselect}
+  \begin{nicscolumn}
+    \nicsitem{NX: good, IPsec: good}
+    \nicsitem{NX has usb forward, but ...}
+    \nicsitem{\mono{ykselect.sh}}
+    \nicsitem{\mono{ykbind}}
+  \end{nicscolumn}
+\end{slide}
+
+\begin{slide}{xrandr érdekesség}{Monitor absztrakció az xrandrban}
+  \begin{nicscolumn}
+    \nicsitem{\mono{docs/info/xrandr-monitors-outputs}}
+    \nicsitem{\mono{xrandr --listmonitors}}
+    \nicsitem{\mono{xrandr --setmonitor}}
+  \end{nicscolumn}
+\end{slide}
+
+\begin{slide}{Linux érdekesség}{vrf absztrakció}
+  \begin{nicscolumn}
+    \nicsitem{\mono{ip vrf}: kernelben van több routing domain}
+    \nicsitem{ezeket aztán cgrouphoz lehet kötni}
+    \nicsitem{a cgrouphoz meg processzeket}
+    \nicsitem{use case: a vpn tunnel-t csak a xyz app használhatja}
+  \end{nicscolumn}
+\end{slide}
+
+\begin{slide}{IPsec + UDP hole punching with someone}{Let's make a tunnel between two machines without any public IP}
+  \begin{nicscolumn}
+    \nicspar{\centering\url{https://github.com/nilcons/ipsec-stun-explain}}
+    \nicsitem{STUN: súg neked, hogy tudd hogyan működik a NAT-od}
+    \nicsitem{UDP hole punching: két NAT mögötti gép is tud beszélni}
+    \nicsitem{IPsec without any daemons: kernel side of IPsec}
+  \end{nicscolumn}
+\end{slide}
+
+\end{document}
